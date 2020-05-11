@@ -1,25 +1,29 @@
 
 // --------------- Movement functions ---------------------------------
 void moveAdventurerLeft() {
-  if(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate -1] != Wall) {
+  byte adjacent = pgm_read_byte(&(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate -1]));
+  if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
     adventurerPosition.columnCoordinate--;
   }
 }
 
 void moveAdventurerUp() {
-  if(gameMap[adventurerPosition.lineCoordinate -1][adventurerPosition.columnCoordinate] != Wall) {
+  byte adjacent = pgm_read_byte(&(gameMap[adventurerPosition.lineCoordinate -1][adventurerPosition.columnCoordinate]));
+  if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
     adventurerPosition.lineCoordinate--;
   }
 }
 
 void moveAdventurerRight() {
-  if(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate +1] != Wall) {
+  byte adjacent = pgm_read_byte(&(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate +1]));
+  if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
     adventurerPosition.columnCoordinate++;
   }
 }
 
 void moveAdventurerDown() {
-  if(gameMap[adventurerPosition.lineCoordinate +1][adventurerPosition.columnCoordinate] != Wall) {
+  byte adjacent = pgm_read_byte(&(gameMap[adventurerPosition.lineCoordinate +1][adventurerPosition.columnCoordinate]));
+  if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
     adventurerPosition.lineCoordinate++;
   }
 }
