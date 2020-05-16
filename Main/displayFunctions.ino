@@ -2,9 +2,9 @@
 void centerMap() {
   for (int i = 0; i < displayNumberOfRows; i++)  {
     for (int j = 0; j < displayNumberOfColumns; j++) {
-      LEDMatrix[i][j] = pgm_read_byte(&(gameMap[adventurerPosition.lineCoordinate-displayRowAdventurerPosition+i][adventurerPosition.columnCoordinate-displayColumnAdventurerPosition+j]));
+      LEDMatrix[i][j] = pgm_read_byte(&(gameMap[adventurer.lineCoordinate-displayRowAdventurerPosition+i][adventurer.columnCoordinate-displayColumnAdventurerPosition+j]));
       if(i == displayRowAdventurerPosition && j == displayColumnAdventurerPosition) {
-        LEDMatrix[i][j] = Adventurer;
+        LEDMatrix[i][j] = adventurer.displayColour;
       } 
     }
   }

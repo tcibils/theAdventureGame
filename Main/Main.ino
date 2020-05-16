@@ -95,39 +95,47 @@ const byte Orange = 8;
 
 // Define colours of the various game elements
 const byte Empty = Black;
-const byte Adventurer = Purple;
 const byte Wall = White;
-const byte Zombie = Red;
 const byte Water = Blue;
 const byte Tree = Green;
 const byte Relic = Pink;
 
-// Struct for a generic point on the matrix with coordinates
+// Struct for a generic point on the matrix with coordinates and a colour to display it
 struct pointOnMatrix {
   byte lineCoordinate;
   byte columnCoordinate;
+  byte displayColour;
 };
 
 // Kind of an inheritence of the pointOnMatrix: simply the player's attributes
 struct Player {
   byte lineCoordinate;
   byte columnCoordinate;
+  byte displayColour;
   byte weaponType;
+};
+
+// This will store the adventurer position through the game, as per just defined struct.
+Player adventurer = {
+  12, 12,
+  Purple,
+  0
 };
 
 // Same for the ennemies, with an ennemy type to differentiate their IA
 struct Ennemy {
   byte lineCoordinate;
   byte columnCoordinate;
+  byte displayColour;
   byte ennemyType;
+  byte isAlive;
 };
 
 // These define where the player is displayed on the display. 
 #define displayRowAdventurerPosition 4        // Should be lower than displayNumberOfRows
 #define displayColumnAdventurerPosition 3     // Should be lower than displayNumberOfColumns
 
-// This will store the adventurer position through the game.
-pointOnMatrix adventurerPosition = {12, 12};
+
 
 // Time Management variables
 unsigned long lastMillis = 0;                 // Initilize at 0
