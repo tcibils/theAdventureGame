@@ -127,8 +127,16 @@ struct Ennemy {
   byte lineCoordinate;
   byte columnCoordinate;
   byte displayColour;
-  byte ennemyType;
-  byte isAlive;
+  byte ennemyType;              // We'll change their AI depending on this parameter. TBD.
+  byte isAlive;                 // If 0, then the ennemy won't appear nor move
+};
+
+#define numberOfEnnemies 2
+
+// Arraw of ennemies on the map.
+Ennemy ennemies[numberOfEnnemies] = {
+  {0, 0, Red, 0, 0},
+  {0, 0, Red, 0, 0}
 };
 
 // These define where the player is displayed on the display. 
@@ -222,7 +230,7 @@ void loop() {
   if(millis() - lastMillis > timeStep) {
 
     // Make something automatically happen every "timeStep" milliseconds here
-    
+    automaticallyMoveEnnemies();
     lastMillis = millis();
   }
   

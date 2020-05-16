@@ -1,11 +1,25 @@
 // Puts the player at the center of the display, and fills the rest of the display with the map, read from the progmem.
 void centerMap() {
+  // We iterate on all the display
   for (int i = 0; i < displayNumberOfRows; i++)  {
     for (int j = 0; j < displayNumberOfColumns; j++) {
+      
+      // And we fill it with what we get from the game map, always centered on the adventurer
       LEDMatrix[i][j] = pgm_read_byte(&(gameMap[adventurer.lineCoordinate-displayRowAdventurerPosition+i][adventurer.columnCoordinate-displayColumnAdventurerPosition+j]));
+      
+      // We place the adventurer at its rightful center position
       if(i == displayRowAdventurerPosition && j == displayColumnAdventurerPosition) {
         LEDMatrix[i][j] = adventurer.displayColour;
-      } 
+      }
+
+      for(byte k = 0; k < numberOfEnnemies; k++) {
+        // TBD
+ //       if(ennemies[k].isAlive == 1) {
+//          if(ennemies[k].lineCoordinate == ? && ennemies[k].columnCoordinate == ?) {
+ //           diplay the ennemy
+ //         }
+ //       }
+      }
     }
   }
 }
