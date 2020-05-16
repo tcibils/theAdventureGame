@@ -90,6 +90,8 @@ const byte Red = 3;
 const byte Green = 4;
 const byte Purple = 5;
 const byte Pink = 6;
+const byte Brown = 7;
+const byte Orange = 8;
 
 // Define colours of the various game elements
 const byte Empty = Black;
