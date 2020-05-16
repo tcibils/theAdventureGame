@@ -135,8 +135,8 @@ struct Ennemy {
 
 // Arraw of ennemies on the map.
 Ennemy ennemies[numberOfEnnemies] = {
-  {0, 0, Red, 0, 0},
-  {0, 0, Red, 0, 0}
+  {0, 0, Red, 0, 1},
+  {3, 3, Red, 1, 1}
 };
 
 // These define where the player is displayed on the display. 

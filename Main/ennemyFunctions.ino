@@ -5,12 +5,26 @@ void automaticallyMoveEnnemies() {
 }
 
 void automaticallyMoveEnnemy(Ennemy ennemyToMove) {
-  // Horizontal distance will be negative if the ennemy is on the left, positive if he's on the right
+  // "Vanilla" ennemy
+  if(ennemyToMove.ennemyType == 0) {basicPathFindingEnnemy(ennemyToMove);}
+
+  // Slightly random ennemy
+  else if(ennemyToMove.ennemyType == 1) {
+    byte temp = random(10);
+    if     (temp < 6)  {basicPathFindingEnnemy(ennemyToMove);}
+    else if(temp == 6) {moveEnnemyLeft(ennemyToMove);}
+    else if(temp == 7) {moveEnnemyRight(ennemyToMove);}
+    else if(temp == 8) {moveEnnemyUp(ennemyToMove);}
+    else if(temp == 9) {moveEnnemyDown(ennemyToMove);}
+  }
+}
+
+void basicPathFindingEnnemy(Ennemy ennemyToMove) {
+    // Horizontal distance will be negative if the ennemy is on the left, positive if he's on the right
   int horizontalDistance = adventurer.columnCoordinate - ennemyToMove.columnCoordinate;
   
   // Vertical distance will be negative if the played is above the ennemy, positive if he's under
   int verticalDistance = adventurer.lineCoordinate - ennemyToMove.lineCoordinate;
-
 
   // Checking if it's better to move horizontally or vertically
   // If there's a greater horizontal distance
@@ -34,6 +48,7 @@ void automaticallyMoveEnnemy(Ennemy ennemyToMove) {
     } 
   }
 }
+
 
 void moveEnnemyLeft(Ennemy ennemyToMove) {
   if(ennemyToMove.isAlive == 1) {
