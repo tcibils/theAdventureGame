@@ -16,7 +16,7 @@ void centerMap() {
         // TBD
  //       if(ennemies[k].isAlive == 1) {
 //          if(ennemies[k].lineCoordinate == ? && ennemies[k].columnCoordinate == ?) {
- //           diplay the ennemy
+ //           LEDMatrix[i][j] = ennemies[k].displayColour;
  //         }
  //       }
       }
