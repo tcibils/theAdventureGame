@@ -36,6 +36,7 @@ void outputDisplay() {
         if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Red;}
         if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Purple;}
+        if(LEDMatrix[rowIndex][columnIndex] == Pink) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Pink;}
       }
       // If we're on an uneven column, we do a mathematical trick to invert it
       else if(columnIndex%2 == 1) {
@@ -45,6 +46,7 @@ void outputDisplay() {
         if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Red;}
         if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Purple;}
+        if(LEDMatrix[rowIndex][columnIndex] == Pink) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Pink;}
       }
     }
   }

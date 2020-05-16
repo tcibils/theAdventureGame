@@ -1,6 +1,5 @@
 /* 
  *  ADVENTURE GAME ARDUINO
- *  Creator : Thomas Cibils
  *  Last update : 05.02.2019
  *  FastLED tuto : https://github.com/FastLED/FastLED/wiki/Basic-usage - used for WS2812B 5050 RGB LED Strip 5M 150 300 Leds 144 60LED/M Individual Addressable 5V
  *  */
@@ -46,14 +45,14 @@ const byte PROGMEM gameMap[mapNumberOfRows][mapNumberOfColumns] = {
 {0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,4,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,4,0,4,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,6,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,2,2,2,2,2,2,2,0,2,2,2,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,2,2,2,2,2,2,2,2,0,2,2,2,2,0,4,0,4,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,2,2,2,2,2,2,2,2,0,2,2,2,2,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,2,2,2,2,2,2,2,2,0,2,2,2,2,2,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,2,2,2,2,2,2,0,0,0,2,2,2,2,2,2,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,2,2,2,2,2,2,0,5,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,2,2,2,2,2,2,0,6,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -90,15 +89,51 @@ const byte Blue = 2;
 const byte Red = 3;
 const byte Green = 4;
 const byte Purple = 5;
+const byte Pink = 6;
 
 // Define colours of the various game elements
 const byte Empty = Black;
-const byte Adventurer = Red;
+const byte Adventurer = Purple;
 const byte Wall = White;
 const byte Zombie = Red;
 const byte Water = Blue;
 const byte Tree = Green;
+const byte Relic = Pink;
 
+// Struct for a generic point on the matrix with coordinates
+struct pointOnMatrix {
+  byte lineCoordinate;
+  byte columnCoordinate;
+};
+
+// Kind of an inheritence of the pointOnMatrix: simply the player's attributes
+struct Player {
+  byte lineCoordinate;
+  byte columnCoordinate;
+  byte weaponType;
+};
+
+// Same for the ennemies, with an ennemy type to differentiate their IA
+struct Ennemy {
+  byte lineCoordinate;
+  byte columnCoordinate;
+  byte ennemyType;
+};
+
+// These define where the player is displayed on the display. 
+#define displayRowAdventurerPosition 4        // Should be lower than displayNumberOfRows
+#define displayColumnAdventurerPosition 3     // Should be lower than displayNumberOfColumns
+
+// This will store the adventurer position through the game.
+pointOnMatrix adventurerPosition = {12, 12};
+
+// Time Management variables
+unsigned long lastMillis = 0;                 // Initilize at 0
+unsigned const int timeStep = 1500;           // Each timeStep, something could happen automatically in the game
+
+// -----------------------------------------------------------
+// ------------------- Technical Parameters ------------------
+// -----------------------------------------------------------
 
 // Pin used from the arduino
 #define leftButton A5        // Input pin for button Left
@@ -108,20 +143,7 @@ const byte Tree = Green;
 #define aButton A0           // Input pin for button A
 #define bButton A1           // Input pin for button B
 
-
-struct pointOnMatrix {
-  int lineCoordinate;
-  int columnCoordinate;
-};
-
-#define displayRowAdventurerPosition 4
-#define displayColumnAdventurerPosition 3
-
-pointOnMatrix adventurerPosition = {12, 12};
-
-unsigned long lastMillis = 0;
-unsigned const int growthSpeed = 1500;  // In miliseconds, every how much will the menace grow
-
+// Technical parameters
 unsigned int leftButtonValue = LOW;
 unsigned int rightButtonValue = LOW;
 unsigned int upButtonValue = LOW;
@@ -131,6 +153,8 @@ unsigned int lastLeftButtonValue = LOW;
 unsigned int lastRightButtonValue = LOW;
 unsigned int lastUpButtonValue = LOW;
 unsigned int lastDownButtonValue = LOW;
+
+
 
 
 void setup() {
@@ -184,9 +208,11 @@ void loop() {
     lastDownButtonValue = downButtonValue; // And we update what we read just after
 
 
-  // Lets the menace grow, but not too fast
-  if(millis() - lastMillis > growthSpeed) {
-//     growingMenace();
+  // Every step of time, something could happen
+  if(millis() - lastMillis > timeStep) {
+
+    // Make something automatically happen every "timeStep" milliseconds here
+    
     lastMillis = millis();
   }
   

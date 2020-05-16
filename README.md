@@ -11,7 +11,7 @@ h2. Technical layout
 The player is dropped in a gigantic map, stored in the Flash memory, with small visibility around him, which is the actual display.
 
 h3. Tutorial
-At the start, the player simply moves around on a dangerless, straight map. He then finds the first Rose Relic, that he can pick up. (i need to learn how to make that buzzer work to give some feedback to the player...)
+At the start, the player simply moves around on a dangerless, straight map. He then finds the first Rose Relic (Pink), that he can pick up. (i need to learn how to make that buzzer work to give some feedback to the player...)
 
 h3. Early game
 
