@@ -1,24 +1,62 @@
 // Puts the player at the center of the display, and fills the rest of the display with the map, read from the progmem.
 void centerMap() {
+  // We'll plot the relevant part of the map on the display
+  // Then add the player and potential other moving elements as well.
+
+  // First we define which part of the map we'll display. We'll display a rectangle of the map, starting on top left
+  byte topLeftFixingLine = 0;       // We'll plot the map starting from this line
+  byte topLeftFixingColumn = 0;     // We'll plot the map starting from this column
+
+  // First we define the start of fixing of the line. If we get near the top or bottom of the map, we want the player to move on the display
+  if(adventurer.lineCoordinate < displayRowAdventurerPosition) {
+    topLeftFixingLine = 0;
+  }
+
+  else if(adventurer.lineCoordinate > mapNumberOfRows - (displayNumberOfRows - displayRowAdventurerPosition)) {
+    topLeftFixingLine = mapNumberOfRows - displayNumberOfRows;
+  }
+
+  // And if we're on the middle of it, the map will simply move around
+  else {
+    topLeftFixingLine = adventurer.lineCoordinate - displayNumberOfRows;
+  }
+
+  // Same for the column fixing
+  if(adventurer.columnCoordinate < displayColumnAdventurerPosition) {
+    topLeftFixingColumn = 0;
+  }
+
+  else if(adventurer.columnCoordinate > mapNumberOfColumns - (displayNumberOfColumns - displayColumnAdventurerPosition)) {
+    topLeftFixingColumn = mapNumberOfColumns - displayNumberOfColumns;
+  }
+
+  // And if we're on the middle of it, the map will simply move around
+  else {
+    topLeftFixingColumn = adventurer.columnCoordinate - displayColumnAdventurerPosition;
+  }
+
+  // ------------------
+  // Now that that's defined, we plot things starting with this top left starter
+  
   // We iterate on all the display
   for (int i = 0; i < displayNumberOfRows; i++)  {
     for (int j = 0; j < displayNumberOfColumns; j++) {
-      
-      // And we fill it with what we get from the game map, always centered on the adventurer
-      LEDMatrix[i][j] = pgm_read_byte(&(gameMap[adventurer.lineCoordinate-displayRowAdventurerPosition+i][adventurer.columnCoordinate-displayColumnAdventurerPosition+j]));
-      
-      // We place the adventurer at its rightful center position
-      if(i == displayRowAdventurerPosition && j == displayColumnAdventurerPosition) {
+      // First we simply plot the map
+      LEDMatrix[i][j] = pgm_read_byte(&(gameMap[topLeftFixingLine+i][topLeftFixingColumn+j]));
+
+      // If it turns out we're at the player coordinate, we plot it. The TopLeftFixing should make sure it happens ^^
+      if(adventurer.lineCoordinate == topLeftFixingLine+i && adventurer.columnCoordinate == topLeftFixingColumn+j) {
         LEDMatrix[i][j] = adventurer.displayColour;
       }
 
+      // We also check for ennemy presence on the display. 
+      // This could probably be optimized to avoid going through the whole ennemy list for all leds of the display board.
       for(byte k = 0; k < numberOfEnnemies; k++) {
-        // TBD
- //       if(ennemies[k].isAlive == 1) {
-//          if(ennemies[k].lineCoordinate == ? && ennemies[k].columnCoordinate == ?) {
- //           LEDMatrix[i][j] = ennemies[k].displayColour;
- //         }
- //       }
+        if(ennemies[k].isAlive == 1) {
+          if(ennemies[k].lineCoordinate == topLeftFixingLine+i && ennemies[k].columnCoordinate == topLeftFixingColumn+j) {
+             LEDMatrix[i][j] = ennemies[k].displayColour;
+          }
+        }
       }
     }
   }
