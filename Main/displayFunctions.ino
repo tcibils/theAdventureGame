@@ -18,7 +18,7 @@ void centerMap() {
 
   // And if we're on the middle of it, the map will simply move around
   else {
-    topLeftFixingLine = adventurer.lineCoordinate - displayNumberOfRows;
+    topLeftFixingLine = adventurer.lineCoordinate - displayRowAdventurerPosition;
   }
 
   // Same for the column fixing
