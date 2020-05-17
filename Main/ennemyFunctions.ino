@@ -1,91 +1,105 @@
 void automaticallyMoveEnnemies() {
   for(byte i = 0; i < numberOfEnnemies; i++) {
-    automaticallyMoveEnnemy(ennemies[i]);
+    automaticallyMoveEnnemy(i);
   }
 }
 
-void automaticallyMoveEnnemy(Ennemy ennemyToMove) {
+void automaticallyMoveEnnemy(byte ennemyToMoveIndex) {
   // "Vanilla" ennemy
-  if(ennemyToMove.ennemyType == 0) {basicPathFindingEnnemy(ennemyToMove);}
+  if(ennemies[ennemyToMoveIndex].ennemyType == 0) {
+    basicPathFindingEnnemy(ennemyToMoveIndex);
+    }
 
   // Slightly random ennemy
-  else if(ennemyToMove.ennemyType == 1) {
+  else if(ennemies[ennemyToMoveIndex].ennemyType == 1) {
     byte temp = random(10);
-    if     (temp < 6)  {basicPathFindingEnnemy(ennemyToMove);}
-    else if(temp == 6) {moveEnnemyLeft(ennemyToMove);}
-    else if(temp == 7) {moveEnnemyRight(ennemyToMove);}
-    else if(temp == 8) {moveEnnemyUp(ennemyToMove);}
-    else if(temp == 9) {moveEnnemyDown(ennemyToMove);}
+    if     (temp < 6)  {basicPathFindingEnnemy(ennemyToMoveIndex);}
+    else if(temp == 6) {moveEnnemyLeft(ennemyToMoveIndex);}
+    else if(temp == 7) {moveEnnemyRight(ennemyToMoveIndex);}
+    else if(temp == 8) {moveEnnemyUp(ennemyToMoveIndex);}
+    else if(temp == 9) {moveEnnemyDown(ennemyToMoveIndex);}
   }
 }
 
-void basicPathFindingEnnemy(Ennemy ennemyToMove) {
+void basicPathFindingEnnemy(byte ennemyToMoveIndex) {
     // Horizontal distance will be negative if the ennemy is on the left, positive if he's on the right
-  int horizontalDistance = adventurer.columnCoordinate - ennemyToMove.columnCoordinate;
+  int horizontalDistance = adventurer.columnCoordinate - ennemies[ennemyToMoveIndex].columnCoordinate;
   
   // Vertical distance will be negative if the played is above the ennemy, positive if he's under
-  int verticalDistance = adventurer.lineCoordinate - ennemyToMove.lineCoordinate;
+  int verticalDistance = adventurer.lineCoordinate - ennemies[ennemyToMoveIndex].lineCoordinate;
 
   // Checking if it's better to move horizontally or vertically
   // If there's a greater horizontal distance
   if(abs(horizontalDistance) > abs(verticalDistance)) {
     // and if this distance is negative, meaning the player is far on the left
     if(horizontalDistance < 0) {
-      moveEnnemyLeft(ennemyToMove);
+      moveEnnemyLeft(ennemyToMoveIndex);
     }
 
     else if(horizontalDistance > 0) {
-      moveEnnemyRight(ennemyToMove);
+      moveEnnemyRight(ennemyToMoveIndex);
     }
   }
 
   else if(abs(horizontalDistance) <= abs(verticalDistance)) {
     if(verticalDistance < 0) {
-      moveEnnemyUp(ennemyToMove);
+      moveEnnemyUp(ennemyToMoveIndex);
     }
     else if(verticalDistance > 0){
-      moveEnnemyDown(ennemyToMove);
+      moveEnnemyDown(ennemyToMoveIndex);
     } 
   }
 }
 
 
-void moveEnnemyLeft(Ennemy ennemyToMove) {
-  if(ennemyToMove.isAlive == 1) {
-    // We don't want the player getting outside of the frame
-    if(ennemyToMove.columnCoordinate > 0){
-      byte temp = ennemyToMove.columnCoordinate;
-      ennemyToMove.columnCoordinate = temp - 1;    
+void moveEnnemyLeft(byte ennemyToMoveIndex) {
+  if(ennemies[ennemyToMoveIndex].isAlive == 1) {
+    byte adjacent = pgm_read_byte(&(gameMap[ennemies[ennemyToMoveIndex].lineCoordinate][ennemies[ennemyToMoveIndex].columnCoordinate -1]));
+    if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
+      // We don't want the player getting outside of the frame
+      if(ennemies[ennemyToMoveIndex].columnCoordinate > 0){
+        byte temp = ennemies[ennemyToMoveIndex].columnCoordinate;
+        ennemies[ennemyToMoveIndex].columnCoordinate = temp - 1;    
+      }
     }
   }
 }
 
-void moveEnnemyRight(Ennemy ennemyToMove) {
-  if(ennemyToMove.isAlive == 1) {
-    // We don't want the player getting outside of the frame
-    if(ennemyToMove.columnCoordinate < mapNumberOfColumns-1){
-      byte temp = ennemyToMove.columnCoordinate;
-      ennemyToMove.columnCoordinate = temp + 1;
+void moveEnnemyRight(byte ennemyToMoveIndex) {
+  if(ennemies[ennemyToMoveIndex].isAlive == 1) {
+    byte adjacent = pgm_read_byte(&(gameMap[ennemies[ennemyToMoveIndex].lineCoordinate][ennemies[ennemyToMoveIndex].columnCoordinate +1]));
+    if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
+      // We don't want the player getting outside of the frame
+      if(ennemies[ennemyToMoveIndex].columnCoordinate < mapNumberOfColumns-1){
+        byte temp = ennemies[ennemyToMoveIndex].columnCoordinate;
+        ennemies[ennemyToMoveIndex].columnCoordinate = temp + 1;
+      }
     }
   }
 }
 
-void moveEnnemyUp(Ennemy ennemyToMove) {
-  if(ennemyToMove.isAlive == 1) {
-    // We don't want the player getting outside of the frame
-    if(ennemyToMove.lineCoordinate > 0){
-      byte temp = ennemyToMove.lineCoordinate;
-      ennemyToMove.lineCoordinate = temp - 1;  
+void moveEnnemyUp(byte ennemyToMoveIndex) {
+  if(ennemies[ennemyToMoveIndex].isAlive == 1) {
+    byte adjacent = pgm_read_byte(&(gameMap[ennemies[ennemyToMoveIndex].lineCoordinate -1][ennemies[ennemyToMoveIndex].columnCoordinate]));
+    if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
+      // We don't want the player getting outside of the frame
+      if(ennemies[ennemyToMoveIndex].lineCoordinate > 0){
+        byte temp = ennemies[ennemyToMoveIndex].lineCoordinate;
+        ennemies[ennemyToMoveIndex].lineCoordinate = temp - 1;  
+      }
     }
   }
 }
 
-void moveEnnemyDown(Ennemy ennemyToMove) {
-  if(ennemyToMove.isAlive == 1) {
-    // We don't want the player getting outside of the frame
-    if(ennemyToMove.lineCoordinate < mapNumberOfRows   - 1){
-      byte temp = ennemyToMove.lineCoordinate;
-      ennemyToMove.lineCoordinate = temp + 1;    
+void moveEnnemyDown(byte ennemyToMoveIndex) {
+  if(ennemies[ennemyToMoveIndex].isAlive == 1) {
+    byte adjacent = pgm_read_byte(&(gameMap[ennemies[ennemyToMoveIndex].lineCoordinate +1][ennemies[ennemyToMoveIndex].columnCoordinate]));
+    if(adjacent != Wall && adjacent != Tree && adjacent != Water) {
+      // We don't want the player getting outside of the frame
+      if(ennemies[ennemyToMoveIndex].lineCoordinate < mapNumberOfRows   - 1){
+        byte temp = ennemies[ennemyToMoveIndex].lineCoordinate;
+        ennemies[ennemyToMoveIndex].lineCoordinate = temp + 1;    
+      }
     }
   }
 }
