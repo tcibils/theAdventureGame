@@ -1,6 +1,11 @@
-void automaticallyMoveEnnemies() {
-  for(byte i = 0; i < numberOfEnnemies; i++) {
-    automaticallyMoveEnnemy(i);
+void automaticallyMoveEnnemies(int tickerCounter) {
+  // For each ennemy of the list
+  for(byte ennemyToMoveIndex = 0; ennemyToMoveIndex < numberOfEnnemies; ennemyToMoveIndex++) {
+    // If enough ticks have passed
+    if(tickerCounter % ennemies[ennemyToMoveIndex].ennemySpeed == 0) {
+      // We move the ennemy in question
+      automaticallyMoveEnnemy(ennemyToMoveIndex);
+    }
   }
 }
 

@@ -128,15 +128,16 @@ struct Ennemy {
   byte columnCoordinate;
   byte displayColour;
   byte ennemyType;              // We'll change their AI depending on this parameter. TBD.
-  byte isAlive;                 // If 0, then the ennemy won't appear nor move
+  byte isAlive;                 // If 0, then the ennemy won't appear nor move.
+  int ennemySpeed;              // Ennemy will move every 0.X seconds set here. Must be a multiple of "timeStep".
 };
 
 #define numberOfEnnemies 2
 
 // Arraw of ennemies on the map.
 Ennemy ennemies[numberOfEnnemies] = {
-  {0, 0, Red, 0, 1},
-  {3, 3, Red, 1, 1}
+  {0, 0, Red, 0, 1, 10},
+  {3, 3, Red, 0, 1, 7}
 };
 
 // These define where the player is displayed on the display. 
@@ -146,8 +147,9 @@ Ennemy ennemies[numberOfEnnemies] = {
 
 
 // Time Management variables
-unsigned long lastMillis = 0;                 // Initilize at 0
-unsigned const int timeStep = 1500;           // Each timeStep, something could happen automatically in the game
+unsigned long lastMillis = 0;                // Technical parameter used to count timesteps
+unsigned const int timeStep = 100;           // Each timeStep, something could happen automatically in the game
+unsigned int tickerCounter = 0;              // Will count how maby "timeStep" we went through since game start.
 
 // -----------------------------------------------------------
 // ------------------- Technical Parameters ------------------
@@ -228,9 +230,8 @@ void loop() {
 
   // Every step of time, something could happen
   if(millis() - lastMillis > timeStep) {
-
-    // Make something automatically happen every "timeStep" milliseconds here
-    automaticallyMoveEnnemies();
+    tickerCounter++;                // We count how many times we've passed a timeStep
+    automaticallyMoveEnnemies(tickerCounter);
     lastMillis = millis();
   }
   
