@@ -304,6 +304,7 @@ void loop() {
   if(millis() - lastMillis > timeStep) {
     tickerCounter++;                // We count how many times we've passed a timeStep
     automaticallyMoveEnnemies(tickerCounter);
+    checkIfDead();                  // Checking if an ennemy reached the player
     lastMillis = millis();
   }
   
